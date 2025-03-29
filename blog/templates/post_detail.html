@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <h1>{{ post.title }}</h1>
+        <p><strong>Author:</strong> {{ post.author }} | <strong>Date:</strong> {{ post.created_on }}</p>
+        <p>{{ post.content }}</p>
+
+        <h2>Comments</h2>
+        {% for comment in comments %}
+            <p><strong>{{ comment.name }}</strong> ({{ comment.created_on }}):</p>
+            <p>{{ comment.body }}</p>
+        {% empty %}
+            <p>No comments yet.</p>
+        {% endfor %}
+
+        <h3>Leave a comment</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+
+        <a href="{% url 'home' %}">⬅ Back to Home</a>
+    </div>
+{% endblock %}

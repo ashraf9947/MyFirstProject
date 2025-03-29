@@ -1,0 +1,41 @@
+{% load static %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <nav class="navbar navbar-light bg-light p-3">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">My Blog</a>
+            <a href="{% url 'home' %}">Home</a>  <!--  Ссылка на главную страницу -->
+            <div>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="btn btn-danger"
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Logout
+                    </a>
+                    <form id="logout-form" method="post" action="{% url 'logout' %}" style="display: none;">
+                        {% csrf_token %}
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-success">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Welcome to My Blog</h1>
+        <hr>
+        {% block content %}{% endblock %}
+    </div>
+
+</body>
+</html>
